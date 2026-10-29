@@ -23,3 +23,13 @@ desktop.ini
 # IDEs
 .vscode/
 .idea/
+
+# Secrets and environment variables
+.env
+.env.*
+!.env.example
+
+# Build and log files
+dist/
+build/
+*.log
