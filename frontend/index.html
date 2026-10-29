@@ -1,10 +1,220 @@
-<!doctype html>
-<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Energy Operations Document RAG Assistant Demo</title>
-<style>body{font-family:Arial,sans-serif;margin:32px;background:#f7fafc}.card{background:white;border:1px solid #ddd;border-radius:12px;padding:20px;max-width:850px}button{background:#12372a;color:white;border:0;border-radius:8px;padding:10px 14px;cursor:pointer}pre{background:#0f172a;color:#e5e7eb;padding:16px;border-radius:10px;overflow:auto}</style></head>
-<body><div class="card"><h1>Energy Operations Document RAG Assistant</h1><p>This is a lightweight frontend starter. Connect it to the FastAPI endpoints in <code>/backend/app.py</code>.</p><button onclick="runDemo()">Run sample API call</button><pre id="out">Click the button to test.</pre></div>
-<script>
-async function runDemo(){
-  try{ const r=await fetch('/api/demo'); const j=await r.json(); document.getElementById('out').textContent=JSON.stringify(j,null,2); }
-  catch(e){ document.getElementById('out').textContent='Backend not connected yet. Run FastAPI and serve frontend or deploy together.'; }
-}
-</script></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Operational document intelligence assistant for renewable energy SOPs (Solar, Wind, Hydro, Grid). Grounded answers with citations.">
+  <title>Energy Operations Assistant | Renewable Asset Intelligence</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Top Header -->
+    <header class="app-header">
+      <div class="brand-section">
+        <div class="brand-icon" aria-hidden="true">
+          <!-- Custom Renewable Energy Brandmark (Sun + Turbine Blade motif) -->
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5"></circle>
+            <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"></path>
+          </svg>
+        </div>
+        <div>
+          <h1 class="brand-title">Energy Operations Assistant</h1>
+          <p class="brand-tagline">Operational procedures grounded in local technical SOPs</p>
+        </div>
+      </div>
+
+      <div class="status-section">
+        <div class="status-pill" id="backendStatusPill" title="Live connection status with FastAPI backend">
+          <span class="status-dot" id="connectionDot"></span>
+          <span id="connectionText">Checking Backend...</span>
+        </div>
+        <div class="doc-count-badge" id="docCountText">Loading Catalog...</div>
+      </div>
+    </header>
+
+    <!-- Main Workspace Grid -->
+    <main class="dashboard-grid">
+      <!-- Left Column: Query Console -->
+      <section class="card" aria-labelledby="queryConsoleTitle">
+        <div class="card-header">
+          <h2 id="queryConsoleTitle" class="card-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            Operational Query
+          </h2>
+          <p class="card-subtitle">Query site procedures, safety steps, or maintenance guidance</p>
+        </div>
+
+        <form class="query-form" id="ragForm" onsubmit="return false;">
+          <div class="input-group">
+            <label for="queryInput" class="visually-hidden" style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); border: 0;">Enter operational question</label>
+            <textarea
+              id="queryInput"
+              class="query-textarea"
+              placeholder="e.g., What should be checked for inverter derating?"
+              maxlength="500"
+              rows="3"
+            ></textarea>
+            <div class="char-counter" id="charCount">0 / 500</div>
+          </div>
+
+          <!-- Example Queries -->
+          <div class="examples-section">
+            <span class="examples-label">Operational Examples</span>
+            <div class="example-chips">
+              <button
+                type="button"
+                class="example-chip"
+                data-query="What should be checked for inverter derating?"
+                id="btnExampleSolar"
+              >
+                <span class="example-icon" aria-hidden="true">
+                  <!-- Solar panel icon -->
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                    <path d="M12 7v14M2 14h20M7 7l3 14M17 7l-3 14"></path>
+                  </svg>
+                </span>
+                <span>Solar: What should be checked for inverter derating?</span>
+              </button>
+
+              <button
+                type="button"
+                class="example-chip"
+                data-query="How should gearbox vibration be investigated?"
+                id="btnExampleWind"
+              >
+                <span class="example-icon" aria-hidden="true">
+                  <!-- Wind turbine icon -->
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 12c-2-2.5-4-5-4-8a4 4 0 0 1 8 0c0 3-2 5.5-4 8z"></path>
+                    <path d="M12 12c2.5-2 5-4 8-4a4 4 0 0 1 0 8c-3 0-5.5-2-8-4z"></path>
+                    <path d="M12 12c-2.5 2-5 4-8 4a4 4 0 0 1 0-8c3 0 5.5 2 8 4z"></path>
+                    <circle cx="12" cy="12" r="1.5"></circle>
+                    <path d="M12 13.5V22"></path>
+                  </svg>
+                </span>
+                <span>Wind: How should gearbox vibration be investigated?</span>
+              </button>
+
+              <button
+                type="button"
+                class="example-chip"
+                data-query="What checks are needed before spillway gate inspection?"
+                id="btnExampleHydro"
+              >
+                <span class="example-icon" aria-hidden="true">
+                  <!-- Hydro water droplet icon -->
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path>
+                  </svg>
+                </span>
+                <span>Hydro: What checks are needed before spillway gate inspection?</span>
+              </button>
+
+              <button
+                type="button"
+                class="example-chip"
+                data-query="What factors should be reviewed for generation deviation?"
+                id="btnExampleGrid"
+              >
+                <span class="example-icon" aria-hidden="true">
+                  <!-- Grid transmission tower icon -->
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 22h16M8 22l4-18 4 18M5 14h14M7 8h10"></path>
+                  </svg>
+                </span>
+                <span>Grid: What factors should be reviewed for generation deviation?</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="btn-primary" id="askBtn">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="22" y1="2" x2="11" y2="13"></line>
+                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+              </svg>
+              Ask Assistant
+            </button>
+            <button type="button" class="btn-secondary" id="clearBtn">Clear</button>
+          </div>
+        </form>
+      </section>
+
+      <!-- Right Column: Results & Evidence Panel -->
+      <section class="card results-pane" aria-labelledby="resultsTitle">
+        <div class="card-header">
+          <h2 id="resultsTitle" class="card-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+            </svg>
+            Operational Intelligence
+          </h2>
+          <p class="card-subtitle">Synthesized answer, citations, and retrieval evidence</p>
+        </div>
+
+        <div id="resultsContainer">
+          <!-- Default Empty State -->
+          <div class="empty-state">
+            <div class="empty-icon" aria-hidden="true">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+              </svg>
+            </div>
+            <h3 class="empty-title">Ready for Operational Inquiries</h3>
+            <p class="empty-desc">
+              Select an example question on the left or type a custom operational inquiry regarding Solar, Wind, Hydro, or Grid SOPs.
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Indexed Documents Catalog Section -->
+    <section class="catalog-section" aria-labelledby="catalogTitle">
+      <div class="card">
+        <div class="card-header">
+          <h2 id="catalogTitle" class="card-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+            </svg>
+            Indexed Operational SOPs
+          </h2>
+          <p class="card-subtitle">Verified local technical documents indexed for deterministic retrieval</p>
+        </div>
+
+        <div class="catalog-grid" id="catalogList">
+          <!-- Loaded dynamically from /api/documents -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+      <div>
+        <strong>Energy Operations Assistant</strong> &bull; Grounded Document Intelligence System &bull; Powered by TF-IDF &amp; Cosine Similarity Retrieval
+      </div>
+      <div>
+        Notice: This assistant is designed to support, not replace, site-specific safety clearances, approved lockout-tagout protocols, and qualified plant engineering personnel.
+      </div>
+      <div class="footer-links">
+        <a href="/case_study" class="footer-link">Original Case Study</a>
+        <a href="/api/demo" class="footer-link">API Demo Status</a>
+        <a href="/api/health" class="footer-link">Health Check</a>
+        <a href="/docs" class="footer-link">FastAPI Swagger Docs</a>
+      </div>
+    </footer>
+  </div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
