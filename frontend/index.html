@@ -8,211 +8,584 @@
   <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
-  <div class="app-container">
-    <!-- Top Header -->
+  <div class="app-wrapper">
+
+    <!-- ====================================================================
+         HEADER SECTION
+         ==================================================================== -->
     <header class="app-header">
-      <div class="brand-section">
-        <div class="brand-icon" aria-hidden="true">
-          <!-- Custom Renewable Energy Brandmark (Sun + Turbine Blade motif) -->
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="5"></circle>
-            <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"></path>
+      <!-- Left: Brand Logo & Title -->
+      <div class="brand-left">
+        <div class="brand-logo-pill" aria-hidden="true">
+          <!-- Leaf Logo SVG -->
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/>
+            <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>
           </svg>
         </div>
-        <div>
+        <div class="brand-text-block">
           <h1 class="brand-title">Energy Operations Assistant</h1>
-          <p class="brand-tagline">Operational procedures grounded in local technical SOPs</p>
+          <p class="brand-subtitle">Answers grounded in local technical SOPs</p>
         </div>
       </div>
 
-      <div class="status-section">
-        <div class="status-pill" id="backendStatusPill" title="Live connection status with FastAPI backend">
-          <span class="status-dot" id="connectionDot"></span>
-          <span id="connectionText">Checking Backend...</span>
+      <!-- Center: Subtle Renewable Energy Landscape Panorama -->
+      <div class="header-panorama" aria-hidden="true">
+        <svg viewBox="0 0 480 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Sky Gradient background -->
+          <rect width="480" height="64" rx="8" fill="url(#skyGrad)"/>
+          
+          <!-- Sun with gentle rays -->
+          <circle cx="210" cy="18" r="10" fill="#FAD02C"/>
+          <circle cx="210" cy="18" r="16" fill="#FAD02C" fill-opacity="0.25"/>
+
+          <!-- Distant mountains -->
+          <path d="M0 64L45 42L110 54L190 38L270 52L360 40L440 50L480 64H0Z" fill="#D2E8DA" fill-opacity="0.6"/>
+
+          <!-- Rolling Hills -->
+          <path d="M0 64C80 50 140 48 200 52C280 56 360 46 480 64H0Z" fill="#A8D5BA"/>
+          <path d="M0 64C60 56 160 52 240 58C340 64 420 54 480 64H0Z" fill="#7CBD95"/>
+
+          <!-- Hydroelectric Dam & Water Flow -->
+          <rect x="250" y="44" width="38" height="18" rx="2" fill="#8FA3AD"/>
+          <path d="M254 48H284V64H254V48Z" fill="#758A96"/>
+          <!-- Spillway water flow lines -->
+          <path d="M258 52C258 58 260 62 262 64M266 52C266 58 268 62 270 64M274 52C274 58 276 62 278 64" stroke="#D3F1FD" stroke-width="2" stroke-linecap="round"/>
+          <ellipse cx="270" cy="63" rx="22" ry="3" fill="#6CC4E8" fill-opacity="0.6"/>
+
+          <!-- Solar Panels (Blue angled rectangles) -->
+          <g transform="translate(140, 46)">
+            <polygon points="0,12 18,6 36,6 18,12" fill="#1E5C99"/>
+            <polygon points="2,11 18,6 34,6 18,11" stroke="#5EA4E6" stroke-width="0.8"/>
+            <line x1="9" y1="9" x2="27" y2="9" stroke="#90C4F5" stroke-width="0.6"/>
+            <line x1="18" y1="6" x2="18" y2="12" stroke="#90C4F5" stroke-width="0.6"/>
+            <line x1="18" y1="12" x2="18" y2="15" stroke="#708594" stroke-width="1.5"/>
+          </g>
+          <g transform="translate(170, 49)">
+            <polygon points="0,10 14,5 28,5 14,10" fill="#1E5C99"/>
+            <polygon points="1,9 14,5 27,5 14,9" stroke="#5EA4E6" stroke-width="0.6"/>
+            <line x1="14" y1="10" x2="14" y2="13" stroke="#708594" stroke-width="1.2"/>
+          </g>
+
+          <!-- Wind Turbines -->
+          <!-- Turbine 1 (Left) -->
+          <g transform="translate(230, 22)">
+            <line x1="0" y1="36" x2="0" y2="10" stroke="#FFFFFF" stroke-width="2"/>
+            <circle cx="0" cy="10" r="2" fill="#E2E8F0"/>
+            <line x1="0" y1="10" x2="-8" y2="0" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round"/>
+            <line x1="0" y1="10" x2="8" y2="0" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round"/>
+            <line x1="0" y1="10" x2="0" y2="22" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round"/>
+          </g>
+          <!-- Turbine 2 (Smaller, back) -->
+          <g transform="translate(242, 28)">
+            <line x1="0" y1="28" x2="0" y2="8" stroke="#FFFFFF" stroke-width="1.5"/>
+            <circle cx="0" cy="8" r="1.5" fill="#E2E8F0"/>
+            <line x1="0" y1="8" x2="-6" y2="0" stroke="#FFFFFF" stroke-width="1.2" stroke-linecap="round"/>
+            <line x1="0" y1="8" x2="6" y2="0" stroke="#FFFFFF" stroke-width="1.2" stroke-linecap="round"/>
+            <line x1="0" y1="8" x2="0" y2="17" stroke="#FFFFFF" stroke-width="1.2" stroke-linecap="round"/>
+          </g>
+
+          <!-- Electrical Transmission Tower (Right) -->
+          <g transform="translate(370, 26)">
+            <!-- Tower body -->
+            <line x1="12" y1="36" x2="6" y2="6" stroke="#5B5377" stroke-width="1.5"/>
+            <line x1="0" y1="36" x2="6" y2="6" stroke="#5B5377" stroke-width="1.5"/>
+            <line x1="6" y1="6" x2="6" y2="0" stroke="#5B5377" stroke-width="1.5"/>
+            <!-- Crossbars -->
+            <line x1="-3" y1="10" x2="15" y2="10" stroke="#5B5377" stroke-width="1.2"/>
+            <line x1="-5" y1="16" x2="17" y2="16" stroke="#5B5377" stroke-width="1.2"/>
+            <line x1="-2" y1="24" x2="14" y2="24" stroke="#5B5377" stroke-width="1.2"/>
+            <!-- Braces -->
+            <line x1="1" y1="24" x2="11" y2="16" stroke="#5B5377" stroke-width="0.8"/>
+            <line x1="11" y1="24" x2="1" y2="16" stroke="#5B5377" stroke-width="0.8"/>
+            <line x1="3" y1="16" x2="9" y2="10" stroke="#5B5377" stroke-width="0.8"/>
+            <line x1="9" y1="16" x2="3" y2="10" stroke="#5B5377" stroke-width="0.8"/>
+            <!-- Hanging wires -->
+            <path d="M-5 16Q-25 24 -45 28M17 16Q37 24 60 28" stroke="#7A729A" stroke-width="0.7" fill="none"/>
+          </g>
+
+          <defs>
+            <linearGradient id="skyGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#E8F4F8"/>
+              <stop offset="100%" stop-color="#F2F9F5"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+
+      <!-- Right: Real Backend Health & Document Count Cards -->
+      <div class="header-right">
+        <!-- Status Card -->
+        <div class="status-card" id="statusCard" title="Live connection status with FastAPI backend">
+          <span class="pulse-dot connecting" id="connectionDot"></span>
+          <div class="status-info">
+            <span class="status-label" id="connectionStatusText">Connecting...</span>
+            <span class="status-sub" id="lastCheckedText">Checking backend</span>
+          </div>
         </div>
-        <div class="doc-count-badge" id="docCountText">Loading Catalog...</div>
+
+        <!-- Indexed Document Count Card -->
+        <div class="doc-badge-card" id="docBadgeCard" title="Total indexed technical documents">
+          <div class="doc-badge-icon" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+              <line x1="16" y1="13" x2="8" y2="13"/>
+              <line x1="16" y1="17" x2="8" y2="17"/>
+            </svg>
+          </div>
+          <div class="doc-badge-info">
+            <span class="doc-badge-number" id="docCountNumber">4</span>
+            <span class="doc-badge-sub">Indexed Documents</span>
+          </div>
+        </div>
       </div>
     </header>
 
-    <!-- Main Workspace Grid -->
-    <main class="dashboard-grid">
-      <!-- Left Column: Query Console -->
-      <section class="card" aria-labelledby="queryConsoleTitle">
-        <div class="card-header">
-          <h2 id="queryConsoleTitle" class="card-title">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="11" cy="11" r="8"></circle>
-              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+    <!-- ====================================================================
+         TOP 4 ENERGY DOMAIN CARDS
+         ==================================================================== -->
+    <section class="domain-cards-row" aria-label="Energy Domain Overview">
+      <!-- 1. Solar PV Operations -->
+      <div class="domain-card solar" id="cardSolar" role="button" tabindex="0" data-query="What should be checked for inverter derating?">
+        <div class="domain-art" aria-hidden="true">
+          <!-- Solar Panel SVG -->
+          <svg width="32" height="32" viewBox="0 0 36 36" fill="none">
+            <circle cx="10" cy="10" r="5" fill="#F8B830"/>
+            <polygon points="12,18 28,14 34,26 18,30" fill="#2E75B6"/>
+            <polygon points="13,19 27,15 33,25 19,29" stroke="#87C4FF" stroke-width="1"/>
+            <line x1="20" y1="16" x2="26" y2="27" stroke="#B8DEFF" stroke-width="1"/>
+            <line x1="15" y1="24" x2="31" y2="20" stroke="#B8DEFF" stroke-width="1"/>
+          </svg>
+        </div>
+        <div class="domain-card-content">
+          <div class="domain-card-title">Solar PV Operations</div>
+          <div class="domain-card-desc">Inverter derating, temperature, performance &amp; safety procedures.</div>
+        </div>
+        <div class="domain-chevron" aria-hidden="true">&#8250;</div>
+      </div>
+
+      <!-- 2. Wind Turbine Maintenance -->
+      <div class="domain-card wind" id="cardWind" role="button" tabindex="0" data-query="How should gearbox vibration be investigated?">
+        <div class="domain-art" aria-hidden="true">
+          <!-- Wind Turbine SVG -->
+          <svg width="32" height="32" viewBox="0 0 36 36" fill="none">
+            <line x1="18" y1="32" x2="18" y2="12" stroke="#4A8CC7" stroke-width="2.5" stroke-linecap="round"/>
+            <circle cx="18" cy="12" r="3" fill="#2B6DA8"/>
+            <path d="M18 12L10 2M18 12L26 2M18 12L18 24" stroke="#3579B7" stroke-width="2.2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="domain-card-content">
+          <div class="domain-card-title">Wind Turbine Maintenance</div>
+          <div class="domain-card-desc">Gearbox vibration, bearing wear, inspection &amp; maintenance.</div>
+        </div>
+        <div class="domain-chevron" aria-hidden="true">&#8250;</div>
+      </div>
+
+      <!-- 3. Hydro Safety -->
+      <div class="domain-card hydro" id="cardHydro" role="button" tabindex="0" data-query="What checks are needed before spillway gate inspection?">
+        <div class="domain-art" aria-hidden="true">
+          <!-- Hydro Dam SVG -->
+          <svg width="32" height="32" viewBox="0 0 36 36" fill="none">
+            <rect x="6" y="10" width="24" height="18" rx="2" fill="#758E9B"/>
+            <path d="M10 14H26V28H10V14Z" fill="#5A7482"/>
+            <path d="M13 18C13 23 15 26 16 28M18 18C18 23 20 26 21 28M23 18C23 23 25 26 26 28" stroke="#71D6E5" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="domain-card-content">
+          <div class="domain-card-title">Hydro Safety</div>
+          <div class="domain-card-desc">Spillway gates, lockout-tagout, water flow &amp; safety checks.</div>
+        </div>
+        <div class="domain-chevron" aria-hidden="true">&#8250;</div>
+      </div>
+
+      <!-- 4. Grid Operations -->
+      <div class="domain-card grid" id="cardGrid" role="button" tabindex="0" data-query="What factors should be reviewed for generation deviation?">
+        <div class="domain-art" aria-hidden="true">
+          <!-- Transmission Tower SVG -->
+          <svg width="32" height="32" viewBox="0 0 36 36" fill="none">
+            <line x1="18" y1="4" x2="9" y2="32" stroke="#7561B8" stroke-width="2"/>
+            <line x1="18" y1="4" x2="27" y2="32" stroke="#7561B8" stroke-width="2"/>
+            <line x1="10" y1="12" x2="26" y2="12" stroke="#7561B8" stroke-width="1.8"/>
+            <line x1="7" y1="20" x2="29" y2="20" stroke="#7561B8" stroke-width="1.8"/>
+            <line x1="11" y1="20" x2="25" y2="12" stroke="#7561B8" stroke-width="1"/>
+            <line x1="25" y1="20" x2="11" y2="12" stroke="#7561B8" stroke-width="1"/>
+          </svg>
+        </div>
+        <div class="domain-card-content">
+          <div class="domain-card-title">Grid Operations</div>
+          <div class="domain-card-desc">Generation deviation, frequency, voltage &amp; grid stability.</div>
+        </div>
+        <div class="domain-chevron" aria-hidden="true">&#8250;</div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         MAIN TWO-COLUMN WORKSPACE
+         ==================================================================== -->
+    <main class="workspace-grid">
+      <!-- Left Column: Ask an Operational Question -->
+      <section class="panel-card" aria-labelledby="askHeading">
+        <div class="panel-header">
+          <h2 id="askHeading" class="panel-title">
+            <!-- Chat bubble icon -->
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
             </svg>
-            Operational Query
+            Ask an Operational Question
           </h2>
-          <p class="card-subtitle">Query site procedures, safety steps, or maintenance guidance</p>
+          <p class="panel-subtitle">Get answers based on indexed local SOPs and technical documents.</p>
         </div>
 
-        <form class="query-form" id="ragForm" onsubmit="return false;">
-          <div class="input-group">
-            <label for="queryInput" class="visually-hidden" style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); border: 0;">Enter operational question</label>
+        <form id="ragQueryForm" onsubmit="return false;">
+          <!-- Multiline Input Box -->
+          <div class="query-box-wrapper">
+            <label for="operationalInput" class="visually-hidden" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0);">Question input</label>
             <textarea
-              id="queryInput"
-              class="query-textarea"
-              placeholder="e.g., What should be checked for inverter derating?"
+              id="operationalInput"
+              class="main-textarea"
+              placeholder="Type your question here... (e.g. What should be checked for inverter derating?)"
               maxlength="500"
               rows="3"
             ></textarea>
-            <div class="char-counter" id="charCount">0 / 500</div>
+            <div class="char-counter" id="charCountLabel">0 / 500</div>
           </div>
 
-          <!-- Example Queries -->
-          <div class="examples-section">
-            <span class="examples-label">Operational Examples</span>
-            <div class="example-chips">
+          <!-- Example Questions (2x2 Grid) -->
+          <div class="examples-block">
+            <div class="examples-heading">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-7 7c0 2.5 1.5 4.5 3 6h8c1.5-1.5 3-3.5 3-6a7 7 0 0 0-7-7Z"/>
+              </svg>
+              Example Questions
+            </div>
+            <div class="examples-grid">
+              <!-- Solar Example -->
               <button
                 type="button"
-                class="example-chip"
+                class="example-btn solar"
                 data-query="What should be checked for inverter derating?"
-                id="btnExampleSolar"
               >
-                <span class="example-icon" aria-hidden="true">
-                  <!-- Solar panel icon -->
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
-                    <path d="M12 7v14M2 14h20M7 7l3 14M17 7l-3 14"></path>
+                <span class="example-icon-wrapper" aria-hidden="true">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C88924" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
                   </svg>
                 </span>
-                <span>Solar: What should be checked for inverter derating?</span>
+                <span>What should be checked for inverter derating?</span>
               </button>
 
+              <!-- Wind Example -->
               <button
                 type="button"
-                class="example-chip"
+                class="example-btn wind"
                 data-query="How should gearbox vibration be investigated?"
-                id="btnExampleWind"
               >
-                <span class="example-icon" aria-hidden="true">
-                  <!-- Wind turbine icon -->
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M12 12c-2-2.5-4-5-4-8a4 4 0 0 1 8 0c0 3-2 5.5-4 8z"></path>
-                    <path d="M12 12c2.5-2 5-4 8-4a4 4 0 0 1 0 8c-3 0-5.5-2-8-4z"></path>
-                    <path d="M12 12c-2.5 2-5 4-8 4a4 4 0 0 1 0-8c3 0 5.5 2 8 4z"></path>
-                    <circle cx="12" cy="12" r="1.5"></circle>
-                    <path d="M12 13.5V22"></path>
+                <span class="example-icon-wrapper" aria-hidden="true">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3579B7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 12c-2-2.5-4-5-4-8a4 4 0 0 1 8 0c0 3-2 5.5-4 8z"/><path d="M12 12c2.5-2 5-4 8-4a4 4 0 0 1 0 8c-3 0-5.5-2-8-4z"/><path d="M12 12c-2.5 2-5 4-8 4a4 4 0 0 1 0-8c3 0 5.5 2 8 4z"/><circle cx="12" cy="12" r="1.5"/><path d="M12 13.5V22"/>
                   </svg>
                 </span>
-                <span>Wind: How should gearbox vibration be investigated?</span>
+                <span>How should gearbox vibration be investigated?</span>
               </button>
 
+              <!-- Hydro Example -->
               <button
                 type="button"
-                class="example-chip"
+                class="example-btn hydro"
                 data-query="What checks are needed before spillway gate inspection?"
-                id="btnExampleHydro"
               >
-                <span class="example-icon" aria-hidden="true">
-                  <!-- Hydro water droplet icon -->
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path>
+                <span class="example-icon-wrapper" aria-hidden="true">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#168C91" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/>
                   </svg>
                 </span>
-                <span>Hydro: What checks are needed before spillway gate inspection?</span>
+                <span>What checks are needed before spillway gate inspection?</span>
               </button>
 
+              <!-- Grid Example -->
               <button
                 type="button"
-                class="example-chip"
+                class="example-btn grid"
                 data-query="What factors should be reviewed for generation deviation?"
-                id="btnExampleGrid"
               >
-                <span class="example-icon" aria-hidden="true">
-                  <!-- Grid transmission tower icon -->
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M4 22h16M8 22l4-18 4 18M5 14h14M7 8h10"></path>
+                <span class="example-icon-wrapper" aria-hidden="true">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7561B8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 22h16M8 22l4-18 4 18M5 14h14M7 8h10"/>
                   </svg>
                 </span>
-                <span>Grid: What factors should be reviewed for generation deviation?</span>
+                <span>What factors should be reviewed for generation deviation?</span>
               </button>
             </div>
           </div>
 
-          <div class="form-actions">
-            <button type="button" class="btn-primary" id="askBtn">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="22" y1="2" x2="11" y2="13"></line>
-                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+          <!-- Action Buttons: Ask & Clear -->
+          <div class="action-buttons-row">
+            <button type="button" class="btn-ask" id="submitBtn">
+              <!-- Paper plane icon -->
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="22" y1="2" x2="11" y2="13"/>
+                <polygon points="22 2 15 22 11 13 2 9 22 2"/>
               </svg>
-              Ask Assistant
+              <span>Ask Assistant</span>
             </button>
-            <button type="button" class="btn-secondary" id="clearBtn">Clear</button>
+            <button type="button" class="btn-clear" id="resetBtn">
+              <!-- Reset icon -->
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+                <path d="M3 3v5h5"/>
+              </svg>
+              <span>Clear</span>
+            </button>
+          </div>
+
+          <!-- Bottom Safety Disclaimer Box -->
+          <div class="safety-note-box">
+            <!-- Shield icon -->
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              <path d="m9 12 2 2 4-4"/>
+            </svg>
+            <span>Answers are based only on the provided documents. Always follow site-specific procedures and qualified personnel guidance.</span>
           </div>
         </form>
       </section>
 
-      <!-- Right Column: Results & Evidence Panel -->
-      <section class="card results-pane" aria-labelledby="resultsTitle">
-        <div class="card-header">
-          <h2 id="resultsTitle" class="card-title">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-              <polyline points="14 2 14 8 20 8"></polyline>
-              <line x1="16" y1="13" x2="8" y2="13"></line>
-              <line x1="16" y1="17" x2="8" y2="17"></line>
+      <!-- Right Column: Operational Intelligence -->
+      <section class="panel-card intel-container" aria-labelledby="intelHeading">
+        <div class="panel-header">
+          <h2 id="intelHeading" class="panel-title">
+            <!-- Sparkle / Star icon -->
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/>
             </svg>
             Operational Intelligence
           </h2>
-          <p class="card-subtitle">Synthesized answer, citations, and retrieval evidence</p>
         </div>
 
-        <div id="resultsContainer">
-          <!-- Default Empty State -->
-          <div class="empty-state">
-            <div class="empty-icon" aria-hidden="true">
-              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+        <!-- Dynamic Results Area -->
+        <div id="intelContentArea">
+          <!-- Default Welcome View with Artwork & How It Works -->
+          <div class="welcome-block">
+            <!-- Welcome Vector Illustration (Wind turbine, solar panel, hydro dam, sun) -->
+            <div class="welcome-artwork" aria-hidden="true">
+              <svg viewBox="0 0 320 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- Sky & soft glow -->
+                <circle cx="160" cy="50" r="18" fill="#F8C84A"/>
+                <circle cx="160" cy="50" r="28" fill="#F8C84A" fill-opacity="0.2"/>
+                
+                <!-- Green Hills -->
+                <path d="M0 140C50 110 120 105 180 115C240 125 280 112 320 140H0Z" fill="#9CD1AE"/>
+                <path d="M0 140C60 125 140 120 220 126C270 130 300 124 320 140H0Z" fill="#70B88A"/>
+
+                <!-- Hydro Dam -->
+                <rect x="180" y="105" width="46" height="25" rx="2" fill="#7D939F"/>
+                <path d="M185 110H221V130H185V110Z" fill="#667E8A"/>
+                <path d="M190 114C190 120 192 126 194 130M198 114C198 120 200 126 202 130M206 114C206 120 208 126 210 130" stroke="#B8EDF8" stroke-width="2" stroke-linecap="round"/>
+                <ellipse cx="203" cy="132" rx="28" ry="4" fill="#63C5E8" fill-opacity="0.5"/>
+
+                <!-- Solar Panel Array -->
+                <g transform="translate(60, 102)">
+                  <polygon points="0,18 24,9 48,9 24,18" fill="#1F5D99"/>
+                  <polygon points="2,17 24,9 46,9 24,17" stroke="#68ABEC" stroke-width="1"/>
+                  <line x1="12" y1="13" x2="36" y2="13" stroke="#A8D2F8" stroke-width="0.8"/>
+                  <line x1="24" y1="9" x2="24" y2="18" stroke="#A8D2F8" stroke-width="0.8"/>
+                  <line x1="24" y1="18" x2="24" y2="23" stroke="#6A7E8C" stroke-width="2"/>
+                </g>
+
+                <!-- Wind Turbines -->
+                <g transform="translate(140, 50)">
+                  <line x1="0" y1="65" x2="0" y2="18" stroke="#FFFFFF" stroke-width="3"/>
+                  <circle cx="0" cy="18" r="3.5" fill="#E2E8F0"/>
+                  <path d="M0 18L-14 2M0 18L14 2M0 18L0 38" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round"/>
+                </g>
+                <g transform="translate(120, 68)">
+                  <line x1="0" y1="46" x2="0" y2="12" stroke="#FFFFFF" stroke-width="2"/>
+                  <circle cx="0" cy="12" r="2.5" fill="#E2E8F0"/>
+                  <path d="M0 12L-10 1M0 12L10 1M0 12L0 26" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round"/>
+                </g>
               </svg>
             </div>
-            <h3 class="empty-title">Ready for Operational Inquiries</h3>
-            <p class="empty-desc">
-              Select an example question on the left or type a custom operational inquiry regarding Solar, Wind, Hydro, or Grid SOPs.
+
+            <h3 class="welcome-title">Welcome to Energy Operations Assistant</h3>
+            <p class="welcome-text">
+              Ask a question about solar, wind, hydro, or grid operations. I'll find relevant information from our local technical documents and provide evidence-based answers with citations.
             </p>
+
+            <!-- How It Works Section -->
+            <div class="how-it-works-card">
+              <div class="how-it-works-title">How it works</div>
+              <div class="steps-row">
+                <!-- Step 1 -->
+                <div class="step-node">
+                  <div class="step-circle s1" aria-hidden="true">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                    </svg>
+                  </div>
+                  <div class="step-label">1. Validate<br>Question</div>
+                </div>
+
+                <div class="step-arrow" aria-hidden="true">&rarr;</div>
+
+                <!-- Step 2 -->
+                <div class="step-node">
+                  <div class="step-circle s2" aria-hidden="true">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                    </svg>
+                  </div>
+                  <div class="step-label">2. Retrieve<br>Relevant Docs</div>
+                </div>
+
+                <div class="step-arrow" aria-hidden="true">&rarr;</div>
+
+                <!-- Step 3 -->
+                <div class="step-node">
+                  <div class="step-circle s3" aria-hidden="true">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-7 7c0 2.5 1.5 4.5 3 6h8c1.5-1.5 3-3.5 3-6a7 7 0 0 0-7-7Z"/>
+                    </svg>
+                  </div>
+                  <div class="step-label">3. Generate<br>Answer</div>
+                </div>
+
+                <div class="step-arrow" aria-hidden="true">&rarr;</div>
+
+                <!-- Step 4 -->
+                <div class="step-node">
+                  <div class="step-circle s4" aria-hidden="true">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                      <polyline points="14 2 14 8 20 8"/>
+                      <line x1="16" y1="13" x2="8" y2="13"/>
+                    </svg>
+                  </div>
+                  <div class="step-label">4. Add<br>Citations</div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
     </main>
 
-    <!-- Indexed Documents Catalog Section -->
-    <section class="catalog-section" aria-labelledby="catalogTitle">
-      <div class="card">
-        <div class="card-header">
-          <h2 id="catalogTitle" class="card-title">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
-              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+    <!-- ====================================================================
+         BOTTOM SECTION - INDEXED OPERATIONAL DOCUMENTS
+         ==================================================================== -->
+    <section class="library-section" aria-labelledby="libraryHeading">
+      <div class="library-header">
+        <div>
+          <h2 id="libraryHeading" class="library-title">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
             </svg>
-            Indexed Operational SOPs
+            Indexed Operational Documents
           </h2>
-          <p class="card-subtitle">Verified local technical documents indexed for deterministic retrieval</p>
+          <div class="library-subtitle" id="librarySummaryText">4 documents &bull; 4 chunks total</div>
+        </div>
+        <a href="#operationalInput" class="library-view-link" id="viewAllDocsLink">
+          View All Documents &rsaquo;
+        </a>
+      </div>
+
+      <!-- 4 Library Cards Grid -->
+      <div class="library-cards-grid" id="libraryCardsGrid">
+        <!-- Rendered dynamically from /api/documents -->
+        <div class="library-doc-card solar" data-query="What should be checked for inverter derating?">
+          <div class="library-doc-art" aria-hidden="true">
+            <svg width="28" height="28" viewBox="0 0 36 36" fill="none">
+              <circle cx="10" cy="10" r="5" fill="#F8B830"/>
+              <polygon points="12,18 28,14 34,26 18,30" fill="#2E75B6"/>
+            </svg>
+          </div>
+          <div class="library-doc-info">
+            <span class="library-tag solar">Solar</span>
+            <div class="library-doc-title">Solar Inverter SOP</div>
+            <div class="library-doc-file">solar_inverter_sop.md</div>
+            <div class="library-doc-meta">&#128196; 1 chunk</div>
+          </div>
+          <div class="library-chevron" aria-hidden="true">&#8250;</div>
         </div>
 
-        <div class="catalog-grid" id="catalogList">
-          <!-- Loaded dynamically from /api/documents -->
+        <div class="library-doc-card wind" data-query="How should gearbox vibration be investigated?">
+          <div class="library-doc-art" aria-hidden="true">
+            <svg width="28" height="28" viewBox="0 0 36 36" fill="none">
+              <line x1="18" y1="32" x2="18" y2="12" stroke="#4A8CC7" stroke-width="2.5"/>
+              <circle cx="18" cy="12" r="3" fill="#2B6DA8"/>
+            </svg>
+          </div>
+          <div class="library-doc-info">
+            <span class="library-tag wind">Wind</span>
+            <div class="library-doc-title">Wind Turbine Maintenance</div>
+            <div class="library-doc-file">wind_turbine_maintenance.md</div>
+            <div class="library-doc-meta">&#128196; 1 chunk</div>
+          </div>
+          <div class="library-chevron" aria-hidden="true">&#8250;</div>
+        </div>
+
+        <div class="library-doc-card hydro" data-query="What checks are needed before spillway gate inspection?">
+          <div class="library-doc-art" aria-hidden="true">
+            <svg width="28" height="28" viewBox="0 0 36 36" fill="none">
+              <rect x="6" y="10" width="24" height="18" rx="2" fill="#758E9B"/>
+              <path d="M10 14H26V28H10V14Z" fill="#5A7482"/>
+            </svg>
+          </div>
+          <div class="library-doc-info">
+            <span class="library-tag hydro">Hydro</span>
+            <div class="library-doc-title">Hydro Safety Brief</div>
+            <div class="library-doc-file">hydro_safety_brief.md</div>
+            <div class="library-doc-meta">&#128196; 1 chunk</div>
+          </div>
+          <div class="library-chevron" aria-hidden="true">&#8250;</div>
+        </div>
+
+        <div class="library-doc-card grid" data-query="What factors should be reviewed for generation deviation?">
+          <div class="library-doc-art" aria-hidden="true">
+            <svg width="28" height="28" viewBox="0 0 36 36" fill="none">
+              <line x1="18" y1="4" x2="9" y2="32" stroke="#7561B8" stroke-width="2"/>
+              <line x1="18" y1="4" x2="27" y2="32" stroke="#7561B8" stroke-width="2"/>
+            </svg>
+          </div>
+          <div class="library-doc-info">
+            <span class="library-tag grid">Grid</span>
+            <div class="library-doc-title">Grid Operations Note</div>
+            <div class="library-doc-file">grid_operations_note.md</div>
+            <div class="library-doc-meta">&#128196; 1 chunk</div>
+          </div>
+          <div class="library-chevron" aria-hidden="true">&#8250;</div>
         </div>
       </div>
     </section>
 
-    <!-- Footer -->
+    <!-- ====================================================================
+         FOOTER SECTION
+         ==================================================================== -->
     <footer class="app-footer">
-      <div>
-        <strong>Energy Operations Assistant</strong> &bull; Grounded Document Intelligence System &bull; Powered by TF-IDF &amp; Cosine Similarity Retrieval
+      <div class="footer-item">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/>
+        </svg>
+        <span>Evidence-grounded operational support for renewable-energy teams.</span>
       </div>
-      <div>
-        Notice: This assistant is designed to support, not replace, site-specific safety clearances, approved lockout-tagout protocols, and qualified plant engineering personnel.
+
+      <div class="footer-item warning">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/>
+          <line x1="12" y1="9" x2="12" y2="13"/>
+          <line x1="12" y1="17" x2="12.01" y2="17"/>
+        </svg>
+        <span>Always follow approved site-specific procedures, lockout-tagout requirements, and qualified engineering guidance.</span>
       </div>
-      <div class="footer-links">
-        <a href="/case_study" class="footer-link">Original Case Study</a>
-        <a href="/api/demo" class="footer-link">API Demo Status</a>
-        <a href="/api/health" class="footer-link">Health Check</a>
-        <a href="/docs" class="footer-link">FastAPI Swagger Docs</a>
+
+      <div class="footer-item">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/>
+        </svg>
+        <span>Green Energy. Safer Tomorrow.</span>
       </div>
     </footer>
+
   </div>
 
   <script src="/static/app.js"></script>

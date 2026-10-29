@@ -163,7 +163,11 @@ def list_documents():
                 "topic": chunk.topic,
                 "chunk_count": sum(1 for c in engine.chunks if c.source_file == chunk.source_file),
             })
-    return {"total_documents": len(docs), "documents": docs}
+    return {
+        "total_documents": len(docs),
+        "total_chunks": len(engine.chunks),
+        "documents": docs,
+    }
 
 
 @app.get("/api/metrics")
