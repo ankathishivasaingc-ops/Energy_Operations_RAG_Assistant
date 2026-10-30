@@ -17,13 +17,13 @@ Built with **FastAPI**, **scikit-learn** (TF-IDF & Cosine Similarity), and **Van
 1. [Problem Statement & Energy Domain Context](#1-problem-statement--energy-domain-context)
 2. [Why Previous Render Deployment Failed & The Solution](#2-why-previous-render-deployment-failed--the-solution)
 3. [Step-by-Step Render Deployment Guide (via GitHub)](#3-step-by-step-render-deployment-guide-via-github)
-4. [Step-by-Step VS Code Developer Guide](#4-step-by-step-vs-code-developer-guide)
+4. [Step-by-Step VS Code Developer Guide (VSCODE_GUIDE.md)](#4-step-by-step-vs-code-developer-guide)
 5. [Architecture & Human-Centric Data Flow](#5-architecture--human-centric-data-flow)
 6. [Technology Stack](#6-technology-stack)
 7. [Repository File Structure](#7-repository-file-structure)
 8. [Verification & Evaluation Results](#8-verification--evaluation-results)
-9. [API Endpoints & Examples](#9-api-endpoints--examples)
-10. [Alternative Deployment: Railway](#10-alternative-deployment-railway)
+9. [API Documentation & Health Check Endpoints](#9-api-documentation--health-check-endpoints)
+10. [Render Continuous Deployment & Verification](#10-render-continuous-deployment--verification)
 11. [Security, Safety & Zero-Hallucination Guardrails](#11-security-safety--zero-hallucination-guardrails)
 
 ---
@@ -299,13 +299,14 @@ Energy_Operations_RAG_Assistant/
 ├── case_study.html           # Original case study problem statement
 ├── eval_retrieval.py         # Evaluation suite & 1,000-query latency benchmark
 ├── evaluation_rubric.md      # Greenko screening rubric
-├── Procfile                  # Railway / Render start command
+├── Procfile                  # Render start command
 ├── pytest.ini                # Pytest path and runner configuration
 ├── README.md                 # Complete documentation (this file)
 ├── render.yaml               # Render Infrastructure-as-Code Blueprint configuration
 ├── requirements-dev.txt      # Development dependencies (includes pytest and httpx)
-├── requirements.txt          # Production dependencies (pinned for Render/Railway)
-└── submission_instructions.md# Candidate submission guidelines
+├── requirements.txt          # Production dependencies (pinned for Render Python 3.11)
+├── submission_instructions.md# Candidate submission guidelines
+└── VSCODE_GUIDE.md           # Visual VS Code developer guide & API documentation
 ```
 
 ---
@@ -340,10 +341,23 @@ python eval_retrieval.py
 
 ---
 
-## 9. API Endpoints & Examples
+## 9. API Documentation & Health Check Endpoints
 
-### 1. `POST /api/run`
-Processes an operational question through the RAG pipeline.
+The FastAPI backend automatically publishes interactive, self-documenting API interfaces.
+
+| Interface | URL | Purpose |
+|---|---|---|
+| **Interactive Swagger UI** | [`http://127.0.0.1:8000/docs`](http://127.0.0.1:8000/docs) | Test every endpoint interactively via browser with "Try it out". |
+| **ReDoc UI** | [`http://127.0.0.1:8000/redoc`](http://127.0.0.1:8000/redoc) | Human-readable API documentation and data models. |
+| **OpenAPI Schema** | [`http://127.0.0.1:8000/openapi.json`](http://127.0.0.1:8000/openapi.json) | Complete OpenAPI JSON specification. |
+| **Case Study Reference** | [`http://127.0.0.1:8000/case_study`](http://127.0.0.1:8000/case_study) | Problem statement, screening rubric, and technical goals. |
+
+---
+
+### Core Endpoint Specifications
+
+#### 1. `POST /api/run`
+Processes an operational question through the complete RAG pipeline.
 
 **Request:**
 ```bash
@@ -378,8 +392,12 @@ curl -X POST "http://127.0.0.1:8000/api/run" \
 }
 ```
 
-### 2. `GET /api/health`
-Checks backend engine status, indexed count, and topics.
+#### 2. `GET /api/health`
+Probes system operational status, active document count, and uptime. Used for:
+- **Render Zero-Downtime Health Checking:** Render probes `/api/health` before routing live web traffic to newly deployed containers.
+- **Frontend Live Heartbeat:** The dashboard updates its glowing connection indicator and document count every 12 seconds.
+
+**Response (200 OK):**
 ```json
 {
   "status": "healthy",
@@ -395,28 +413,29 @@ Checks backend engine status, indexed count, and topics.
 }
 ```
 
-### 3. `GET /api/documents`
+#### 3. `GET /api/documents`
 Returns all indexed SOP files, document titles, and chunk numbers.
 
-### 4. `GET /api/metrics`
+#### 4. `GET /api/metrics`
 Reports runtime metrics including total queries processed, refusal count, and average latency.
 
-### 5. `GET /api/demo`
+#### 5. `GET /api/demo`
 Preserved endpoint maintaining backward compatibility with original schema.
 
 ---
 
-## 10. Alternative Deployment: Railway
+## 10. Render Continuous Deployment & Verification
 
-This project also deploys directly to Railway using the included `Procfile`:
-```
-web: uvicorn backend.app:app --host 0.0.0.0 --port $PORT
-```
+This project is configured for automated continuous deployment to Render whenever code is pushed to GitHub.
 
-1. Log in to [railway.app](https://railway.app/).
-2. Click **New Project** → **Deploy from GitHub repo**.
-3. Select `ankathishivasaingc-ops/Energy_Operations_RAG_Assistant`.
-4. In **Settings** → **Networking**, click **Generate Domain** to get a public URL.
+### Automatic Workflow
+1. A developer pushes commits to GitHub (`git push origin main`).
+2. GitHub notifies Render via webhook.
+3. Render reads [`.python-version`](file:///d:/Energy_Operations_RAG_Assistant/.python-version) (`3.11.9`) and [`render.yaml`](file:///d:/Energy_Operations_RAG_Assistant/render.yaml).
+4. Render downloads pre-compiled binary wheels for `pandas`, `numpy`, and `scikit-learn` in ~5 seconds.
+5. Render runs the health check against `/api/health`. Once `status: healthy` is confirmed, traffic is routed to the new deployment with zero downtime!
+
+> For a full, step-by-step visual tutorial on VS Code debugging, testing, and Render deployment, see [**`VSCODE_GUIDE.md`**](file:///d:/Energy_Operations_RAG_Assistant/VSCODE_GUIDE.md).
 
 ---
 
