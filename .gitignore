@@ -21,8 +21,10 @@ Thumbs.db
 desktop.ini
 
 # IDEs
-.vscode/
 .idea/
+.vscode/*
+!.vscode/launch.json
+!.vscode/settings.json
 
 # Secrets and environment variables
 .env
